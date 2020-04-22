@@ -55,6 +55,8 @@ description: 'The full, boring, unadultered enmap docs.'
     * [.clone\(\)](api.md#Enmap+clone) ⇒ [`Enmap`](api.md#Enmap)
     * [.concat\(...enmaps\)](api.md#Enmap+concat) ⇒ [`Enmap`](api.md#Enmap)
     * [.equals\(enmap\)](api.md#Enmap+equals) ⇒ `boolean`
+    * [.export\(\)](api.md#Enmap+export) ⇒ `string`
+    * [.import\(string\)](api.md#Enmap+import) ⇒ [`Enmap`](api.md#Enmap)
   * _static_
     * [.migrate\(\)](api.md#Enmap.migrate)
     * [.multi\(names, options\)](api.md#Enmap.multi) ⇒ `Array.`
@@ -73,7 +75,7 @@ Initializes a new Enmap, with options.
 | options.cloneLevel | `string` | Defaults to deep. Determines how objects and arrays are treated when inserting and retrieving from the database. See [https://enmap.evie.codes/usage\#enmap-options](https://enmap.evie.codes/usage#enmap-options) for more details on this option. |
 | options.polling | `boolean` | defaults to `false`. Determines whether Enmap will attempt to retrieve changes from the database on a regular interval. This means that if another Enmap in another process modifies a value, this change will be reflected in ALL enmaps using the polling feature. |
 | options.pollingInterval | `string` | defaults to `1000`, polling every second. Delay in milliseconds to poll new data from the database. The shorter the interval, the more CPU is used, so it's best not to lower this. Polling takes about 350-500ms if no data is found, and time will grow with more changes fetched. In my tests, 15 rows took a little more than 1 second, every second. |
-| options.ensureProps | `boolean` | defaults to `false`. If enabled and the value in the enmap is an object, using ensure\(\) will also ensure that every property present in the default object will be added to the value, if it's absent. See ensure API reference for more information. |
+| options.ensureProps | `boolean` | defaults to `false`. If enabled and the value in the enmap is an object, using ensure\(\) will also ensure that every property present in the default object will be added to the value, if it's absent. See ensure API reference for more information. |equals
 | options.strictType | `boolean` | defaults to `false`. If enabled, locks the enmap to the type of the first value written to it \(such as Number or String or Object\). Do not enable this option if your enmap contains different types of value or the enmap will fail to load. |
 | options.typeLock | `string` | Only used if strictType is enabled. Defines an initial type for every value entered in the enmap. If no value is provided, the first value written to enmap will determine its typeLock. Must be a valid JS Primitive name, such as String, Number, Object, Array. |
 
@@ -723,6 +725,26 @@ Checks if this Enmap shares identical key-value pairings with another. This is d
 | Param | Type | Description |
 | :--- | :--- | :--- |
 | enmap | [`Enmap`](api.md#Enmap) | Enmap to compare with |
+
+
+## enmap.export\(\) ⇒ `string`
+
+Creates a stringifed JSON object of the enmap. Can be imported using [enmap.import](api.md#enmap+import).
+
+**Kind**: instance method of [`Enmap`](api.md#Enmap)  
+**Returns**: `String` - Stringified JSON object of the enmap.
+
+
+## enmap.import\(string\) ⇒ [`Enmap`](api.md#Enmap)
+
+Import a stringified JSON enmap. You can get this with [enmap.export](api.md#enmap+export). 
+
+**Kind**: instance method of [`Enmap`](api.md#Enmap)  
+**Returns**: `boolean` - Whether the Enmaps have identical contents
+
+| Param | Type | Description |
+| :--- | :--- | :--- |
+| string | String | A stringified JSON enmap |
 
 ## Enmap.migrate\(\)
 
